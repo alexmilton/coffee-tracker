@@ -3,61 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>Coffee Tracker</title>
+  
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+  
+  <!-- Flatpickr CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  
+  <!-- Custom Application CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  
+  <!-- Flatpickr JS -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body>
   <h1>Coffee Tracker</h1>
   
-  <div class="stats-container">
-    <div class="stat-card">
-      <div class="stat-card-title">Bags Purchased</div>
-      <div class="stat-card-split">
-        <div class="split-col">
-          <span class="split-label">{{ stats.currentYear.year }}</span>
-          <span class="split-value">{{ stats.currentYear.totalBags }}</span>
-        </div>
-        <div class="split-col">
-          <span class="split-label">All Time</span>
-          <span class="split-value">{{ stats.allTime.totalBags }}</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-card-title">Total Spend</div>
-      <div class="stat-card-split">
-        <div class="split-col">
-          <span class="split-label">{{ stats.currentYear.year }}</span>
-          <span class="split-value">${{ "%.2f"|format(stats.currentYear.totalSpend) }}</span>
-        </div>
-        <div class="split-col">
-          <span class="split-label">All Time</span>
-          <span class="split-value">${{ "%.2f"|format(stats.allTime.totalSpend) }}</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-card-title">Avg Cost / Gram</div>
-      <div class="stat-card-split">
-        <div class="split-col">
-          <span class="split-label">{{ stats.currentYear.year }}</span>
-          <span class="split-value">${{ "%.4f"|format(stats.currentYear.avgCostPerGram) }}</span>
-        </div>
-        <div class="split-col">
-          <span class="split-label">All Time</span>
-          <span class="split-value">${{ "%.4f"|format(stats.allTime.avgCostPerGram) }}</span>
-        </div>
-      </div>
-    </div>
+  <!-- Single Stats Summary Card -->
+  <div class="card stats-summary-card">
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>Period</th>
+          <th>Bags Purchased</th>
+          <th>Total Spend</th>
+          <th>Avg Cost / Gram</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="period-label">{{ stats.currentYear.year }}</td>
+          <td class="stat-highlight">{{ stats.currentYear.totalBags }}</td>
+          <td class="stat-highlight">${{ "%.2f"|format(stats.currentYear.totalSpend) }}</td>
+          <td class="stat-highlight">${{ "%.4f"|format(stats.currentYear.avgCostPerGram) }}</td>
+        </tr>
+        <tr>
+          <td class="period-label">All Time</td>
+          <td class="stat-highlight">{{ stats.allTime.totalBags }}</td>
+          <td class="stat-highlight">${{ "%.2f"|format(stats.allTime.totalSpend) }}</td>
+          <td class="stat-highlight">${{ "%.4f"|format(stats.allTime.avgCostPerGram) }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   
   <div class="card">
     <h3>Log a Purchase Batch</h3>
     <form method="POST">
+      
       <div class="batch-header">
         <div class="input-group">
           <label>Date (YYYY-MM-DD)</label>
@@ -72,6 +65,7 @@
 
       <h4>Coffee Details (Up to 3 Bags)</h4>
       
+      <!-- Bag 1 (Required) -->
       <div class="bag-row">
         <div class="input-group">
           <label>Bag 1</label>
@@ -88,6 +82,7 @@
         </div>
       </div>
 
+      <!-- Bag 2 (Optional) -->
       <div class="bag-row">
         <div class="input-group">
           <label>Bag 2</label>
@@ -103,6 +98,7 @@
         </div>
       </div>
 
+      <!-- Bag 3 (Optional) -->
       <div class="bag-row">
         <div class="input-group">
           <label>Bag 3</label>
@@ -152,6 +148,7 @@
     </table>
   </div>
   
+  <!-- Custom Application JS -->
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

@@ -24,39 +24,51 @@ h1 {
   letter-spacing: 1px;
 }
 
-.stats-container {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
+/* Stats Summary Card */
+.stats-summary-card {
+  padding: 1.5rem 2rem;
   margin-bottom: 2rem;
-  flex-wrap: wrap;
 }
 
-.stat-card {
-  background-color: var(--cardCream);
-  padding: 1.5rem;
-  border-radius: var(--borderRadius);
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  flex: 1;
-  min-width: 120px;
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.stat-card-title {
-  font-size: 0.9rem;
-  text-transform: uppercase;
+.stats-table th {
+  font-size: 0.85rem;
   font-weight: 600;
+  text-transform: uppercase;
   color: #795c4a;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 2px solid #e0d8d3;
 }
 
-.stat-card-value {
-  display: block;
-  font-size: 1.8rem;
-  font-weight: bold;
+.stats-table td {
+  padding: 0.85rem 0.75rem;
+  border-bottom: 1px solid #e0d8d3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.stats-table tr:last-child td {
+  border-bottom: none;
+}
+
+.period-label {
+  font-weight: 700;
+  color: var(--textDark);
+  font-size: 1rem;
+}
+
+.stat-highlight {
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--accentOrange);
-  margin-top: 0.5rem;
 }
 
+/* Main Forms and Tables Layout */
 .card {
   background-color: var(--cardCream);
   padding: 2rem;
@@ -144,7 +156,7 @@ button:hover {
   background-color: #A04000;
 }
 
-/* Table Styling */
+/* Purchase History Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -166,38 +178,4 @@ th {
 
 tr:last-child td {
   border-bottom: none;
-}
-
-/* Split Stats Layout */
-.stat-card-split {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  border-top: 1px solid #e0d8d3;
-  padding-top: 1rem;
-}
-
-.split-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50%;
-}
-
-.split-col:first-child {
-  border-right: 1px solid #e0d8d3;
-}
-
-.split-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: #795c4a;
-  font-weight: 600;
-}
-
-.split-value {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: var(--accentOrange);
-  margin-top: 0.3rem;
 }
