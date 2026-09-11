@@ -225,7 +225,7 @@ h1 {
 
 .bag-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr auto;
   gap: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
@@ -277,6 +277,40 @@ button {
 
 button:hover {
   background-color: var(--accentOrangeHover);
+}
+
+.secondary-button,
+.remove-row-button {
+  width: auto;
+  background-color: transparent;
+  color: var(--accentOrange);
+  border: 2px solid var(--accentOrange);
+  padding: 0.65rem 1rem;
+}
+
+.secondary-button {
+  margin-bottom: 1rem;
+}
+
+.secondary-button:hover,
+.remove-row-button:hover {
+  background-color: var(--accentOrange);
+  color: white;
+}
+
+.remove-row-button {
+  align-self: end;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .bag-row {
+    grid-template-columns: 1fr;
+  }
+
+  .remove-row-button {
+    justify-self: start;
+  }
 }
 
 /* Tables Styling */
