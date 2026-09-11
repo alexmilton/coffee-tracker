@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coffee Tracker - Detailed Stats</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Coffee Tracker</h1>
+
+  <!-- Navigation Bar -->
+  <div class="subpage-nav">
+    <a href="{{ url_for('index') }}" class="back-link">&larr; Back to Tracker</a>
+  </div>
+
+  <!-- Highlights Strip -->
+  <div class="stats-mini-grid">
+    <div class="mini-stat-card">
+      <span class="mini-label">Unique Roasters</span>
+      <span class="mini-value">{{ totalUniqueRoasters }}</span>
+    </div>
+    <div class="mini-stat-card">
+      <span class="mini-label">Unique Coffees</span>
+      <span class="mini-value">{{ totalUniqueCoffees }}</span>
+    </div>
+  </div>
+
+  <!-- Popular Rankings -->
+  <div class="dual-card-grid">
+    <div class="card">
+      <h3>Most Popular Roasters</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Roaster</th>
+            <th>Bags</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in topRoasters %}
+          <tr>
+            <td class="rank-col">{{ loop.index }}</td>
+            <td><strong>{{ r.roaster }}</strong></td>
+            <td class="stat-highlight-small">{{ r.bagCount }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="3" style="text-align:center; color: #795c4a; padding: 1.5rem;">No data yet!</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Most Popular Coffees</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Coffee</th>
+            <th>Roaster</th>
+            <th>Bags</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in topCoffees %}
+          <tr>
+            <td class="rank-col">{{ loop.index }}</td>
+            <td><strong>{{ c.coffeeName }}</strong></td>
+            <td>{{ c.roaster }}</td>
+            <td class="stat-highlight-small">{{ c.bagCount }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="4" style="text-align:center; color: #795c4a; padding: 1.5rem;">No data yet!</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Roaster Breakdown Table -->
+  <div class="card">
+    <h3>Performance by Roaster</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Roaster</th>
+          <th>Orders</th>
+          <th>Bags</th>
+          <th>Total Spend</th>
+          <th>Avg Cost / Bag</th>
+          <th>Avg Cost / Gram</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in roasterStats %}
+        <tr>
+          <td><strong>{{ r.roaster }}</strong></td>
+          <td>{{ r.orderCount }}</td>
+          <td class="stat-highlight-small">{{ r.bagCount }}</td>
+          <td>${{ "%.2f"|format(r.totalSpend) }}</td>
+          <td>${{ "%.2f"|format(r.avgCostPerBag) }}</td>
+          <td>${{ "%.4f"|format(r.avgCostPerGram) }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" style="text-align:center; color: #795c4a; padding: 2rem;">No roaster data available.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

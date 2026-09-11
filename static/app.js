@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
-  flatpickr("#purchaseDate", {
-    allowInput: true,
-    defaultDate: "today"
-  });
+  const purchaseDateInput = document.querySelector("#purchaseDate");
+  if (purchaseDateInput) {
+    flatpickr(purchaseDateInput, {
+      allowInput: true,
+      defaultDate: "today"
+    });
+  }
 });

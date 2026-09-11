@@ -4,6 +4,7 @@
   --cardCream: #FDFBF7;
   --textDark: #2C241F;
   --accentOrange: #D35400;
+  --accentOrangeHover: #A04000;
   --borderRadius: 12px;
 }
 
@@ -24,10 +25,50 @@ h1 {
   letter-spacing: 1px;
 }
 
+/* Navigation Links */
+.subpage-nav {
+  margin-bottom: 1.5rem;
+}
+
+.back-link, .view-details-link {
+  color: var(--accentOrange);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.back-link {
+  display: inline-block;
+  background-color: var(--cardCream);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.back-link:hover, .view-details-link:hover {
+  color: var(--accentOrangeHover);
+  text-decoration: underline;
+}
+
 /* Stats Summary Card */
 .stats-summary-card {
   padding: 1.5rem 2rem;
   margin-bottom: 2rem;
+}
+
+.stats-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e0d8d3;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.stats-card-header h3 {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .stats-table {
@@ -68,6 +109,64 @@ h1 {
   color: var(--accentOrange);
 }
 
+.stat-highlight-small {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accentOrange);
+}
+
+/* Mini Stats Grid (Stats Page) */
+.stats-mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mini-stat-card {
+  background-color: var(--cardCream);
+  padding: 1.25rem;
+  border-radius: var(--borderRadius);
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.mini-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #795c4a;
+}
+
+.mini-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accentOrange);
+  margin-top: 0.3rem;
+}
+
+/* Dual Side-by-Side Cards (Stats Page) */
+.dual-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .dual-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rank-col {
+  width: 25px;
+  font-weight: 700;
+  color: #795c4a;
+}
+
 /* Main Forms and Tables Layout */
 .card {
   background-color: var(--cardCream);
@@ -91,6 +190,26 @@ h1 {
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+}
+
+.table-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e0d8d3;
+  margin-bottom: 0.5rem;
+}
+
+.table-header-row h3 {
+  border-bottom: none;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0;
+}
+
+.record-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #795c4a;
 }
 
 /* Batch Form Layout */
@@ -153,10 +272,10 @@ button {
 }
 
 button:hover {
-  background-color: #A04000;
+  background-color: var(--accentOrangeHover);
 }
 
-/* Purchase History Table Styling */
+/* Tables Styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -164,7 +283,7 @@ table {
 }
 
 th, td {
-  padding: 1rem 0.5rem;
+  padding: 0.85rem 0.5rem;
   text-align: left;
   border-bottom: 1px solid #e0d8d3;
 }
@@ -178,4 +297,44 @@ th {
 
 tr:last-child td {
   border-bottom: none;
+}
+
+/* Pagination Controls */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0d8d3;
+}
+
+.page-btn {
+  background-color: var(--cardCream);
+  border: 2px solid var(--accentOrange);
+  color: var(--accentOrange);
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.page-btn:hover:not(.disabled) {
+  background-color: var(--accentOrange);
+  color: white;
+}
+
+.page-btn.disabled {
+  border-color: #d1c8c2;
+  color: #b3a8a1;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #795c4a;
 }

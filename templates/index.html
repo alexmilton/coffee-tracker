@@ -21,6 +21,10 @@
   
   <!-- Single Stats Summary Card -->
   <div class="card stats-summary-card">
+    <div class="stats-card-header">
+      <h3>Overview Stats</h3>
+      <a href="{{ url_for('stats_detail') }}" class="view-details-link">View Detailed Stats &rarr;</a>
+    </div>
     <table class="stats-table">
       <thead>
         <tr>
@@ -119,7 +123,10 @@
   </div>
 
   <div class="card">
-    <h3>Purchase History</h3>
+    <div class="table-header-row">
+      <h3>Purchase History</h3>
+      <span class="record-count">Total: {{ purchasesPagination.total }} bags</span>
+    </div>
     <table>
       <thead>
         <tr>
@@ -131,7 +138,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for p in purchases %}
+        {% for p in purchasesPagination.items %}
         <tr>
           <td>{{ p.purchaseDate }}</td>
           <td>{{ p.roaster }}</td>
@@ -146,6 +153,25 @@
         {% endfor %}
       </tbody>
     </table>
+
+    <!-- Pagination Controls -->
+    {% if purchasesPagination.pages > 1 %}
+    <div class="pagination">
+      {% if purchasesPagination.has_prev %}
+        <a href="{{ url_for('index', page=purchasesPagination.prev_num) }}" class="page-btn">&larr; Previous</a>
+      {% else %}
+        <span class="page-btn disabled">&larr; Previous</span>
+      {% endif %}
+
+      <span class="page-indicator">Page {{ purchasesPagination.page }} of {{ purchasesPagination.pages }}</span>
+
+      {% if purchasesPagination.has_next %}
+        <a href="{{ url_for('index', page=purchasesPagination.next_num) }}" class="page-btn">Next &rarr;</a>
+      {% else %}
+        <span class="page-btn disabled">Next &rarr;</span>
+      {% endif %}
+    </div>
+    {% endif %}
   </div>
   
   <!-- Custom Application JS -->
