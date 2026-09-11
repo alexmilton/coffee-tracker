@@ -1,29 +1,241 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Coffee Tracker</title>
-  <!-- Add this line for the favicon -->
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-  <style>body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; }</style>
+  <style>
+    /* Color Palette */
+    :root {
+      --bgBrown: #4A3b32;       /* Deep espresso background */
+      --cardCream: #FDFBF7;     /* Latte foam cards */
+      --textDark: #2C241F;      /* High contrast text */
+      --accentOrange: #D35400;  /* Fun, energetic highlight */
+      --borderRadius: 12px;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bgBrown);
+      color: var(--textDark);
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h1 {
+      color: var(--cardCream);
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+    }
+
+    /* Stats Grid */
+    .stats-container {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      background-color: var(--cardCream);
+      padding: 1.5rem;
+      border-radius: var(--borderRadius);
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .stat-card-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #795c4a;
+    }
+
+    .stat-card-value {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--accentOrange);
+      margin-top: 0.5rem;
+    }
+
+    /* Main Forms and Tables Layout */
+    .card {
+      background-color: var(--cardCream);
+      padding: 2rem;
+      border-radius: var(--borderRadius);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      margin-bottom: 2rem;
+    }
+
+    .card h3 {
+      color: var(--textDark);
+      margin-top: 0;
+      border-bottom: 2px solid #e0d8d3;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.2rem;
+      align-items: end;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #5c473a;
+    }
+
+    input {
+      padding: 0.7rem;
+      border: 2px solid #e0d8d3;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 1rem;
+      background-color: white;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accentOrange);
+    }
+
+    button {
+      background-color: var(--accentOrange);
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #A04000;
+    }
+
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+
+    th, td {
+      padding: 1rem 0.5rem;
+      text-align: left;
+      border-bottom: 1px solid #e0d8d3;
+    }
+
+    th {
+      font-weight: 600;
+      color: #795c4a;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>Coffee Stats</h1>
-  <p>Bags: {{ stats.totalBags }} | Spend: ${{ stats.totalSpend }} | $/g: ${{ stats.avgCostPerGram }}</p>
+  <h1>Coffee Tracker</h1>
   
-  <h3>Log a Purchase</h3>
-  <form method="POST">
-    <input type="date" name="purchaseDate" required>
-    
-    <!-- Datalist provides the autocomplete from past entries -->
-    <input list="roasterList" name="roaster" placeholder="Roaster" required>
-    <datalist id="roasterList">{% for r in roasters %}<option value="{{ r }}"></option>{% endfor %}</datalist>
-    
-    <input list="coffeeList" name="coffeeName" placeholder="Coffee Name" required>
-    <datalist id="coffeeList">{% for c in coffees %}<option value="{{ c }}"></option>{% endfor %}</datalist>
-    
-    <input type="number" step="0.1" name="bagWeightGrams" placeholder="Grams" required>
-    <input type="number" step="0.01" name="cost" placeholder="Cost ($)" required>
-    <button type="submit">Add</button>
-  </form>
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-card-title">Bags Purchased</div>
+      <div class="stat-card-value">{{ stats.totalBags }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-title">Total Spend</div>
+      <div class="stat-card-value">${{ stats.totalSpend }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-title">Avg Cost / Gram</div>
+      <div class="stat-card-value">${{ stats.avgCostPerGram }}</div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h3>Log a New Purchase</h3>
+    <form method="POST">
+      <div class="input-group">
+        <label>Date</label>
+        <input type="date" name="purchaseDate" required>
+      </div>
+      
+      <div class="input-group">
+        <label>Roaster</label>
+        <input list="roasterList" name="roaster" placeholder="e.g. Monogram Coffee" required>
+        <datalist id="roasterList">{% for r in roasters %}<option value="{{ r }}"></option>{% endfor %}</datalist>
+      </div>
+      
+      <div class="input-group">
+        <label>Coffee Name</label>
+        <input list="coffeeList" name="coffeeName" placeholder="Name or origin" required>
+        <datalist id="coffeeList">{% for c in coffees %}<option value="{{ c }}"></option>{% endfor %}</datalist>
+      </div>
+      
+      <div class="input-group">
+        <label>Weight (g)</label>
+        <input type="number" step="0.1" name="bagWeightGrams" placeholder="e.g. 340" required>
+      </div>
+      
+      <div class="input-group">
+        <label>Cost ($)</label>
+        <input type="number" step="0.01" name="cost" placeholder="e.g. 24.50" required>
+      </div>
+      
+      <button type="submit">+ Add Coffee</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Purchase History</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Roaster</th>
+          <th>Coffee</th>
+          <th>Size</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in purchases %}
+        <tr>
+          <td>{{ p.purchaseDate }}</td>
+          <td>{{ p.roaster }}</td>
+          <td>{{ p.coffeeName }}</td>
+          <td>{{ p.bagWeightGrams }}g</td>
+          <td>${{ p.cost }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" style="text-align:center; color: #795c4a; padding: 2rem;">No coffee logged yet!</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
