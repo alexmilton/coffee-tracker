@@ -60,7 +60,6 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #e0d8d3;
   padding-bottom: 0.8rem;
   margin-bottom: 1rem;
 }
@@ -82,7 +81,7 @@ h1 {
   text-transform: uppercase;
   color: #795c4a;
   padding: 0.5rem 0.75rem;
-  text-align: left;
+  text-align: center;
   border-bottom: 2px solid #e0d8d3;
 }
 
@@ -90,6 +89,11 @@ h1 {
   padding: 0.85rem 0.75rem;
   border-bottom: 1px solid #e0d8d3;
   vertical-align: middle;
+  text-align: center;
+}
+
+.stats-table th:first-child,
+.stats-table td:first-child {
   text-align: left;
 }
 
