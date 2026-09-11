@@ -303,6 +303,12 @@ button:hover {
   white-space: nowrap;
 }
 
+.remove-row-button[hidden] {
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 @media (max-width: 600px) {
   .bag-row {
     grid-template-columns: 1fr;
