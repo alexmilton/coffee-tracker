@@ -1,0 +1,13 @@
+services:
+  coffee-tracker:
+    build: .
+    container_name: coffee-tracker
+    restart: unless-stopped
+    ports:
+      - "5050:5000"
+    volumes:
+      - coffee_data:/data
+
+volumes:
+  coffee_data:
+    driver: local

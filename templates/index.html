@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coffee Tracker</title>
+  <style>body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; }</style>
+</head>
+<body>
+  <h1>Coffee Stats</h1>
+  <p>Bags: {{ stats.totalBags }} | Spend: ${{ stats.totalSpend }} | $/g: ${{ stats.avgCostPerGram }}</p>
+  
+  <h3>Log a Purchase</h3>
+  <form method="POST">
+    <input type="date" name="purchaseDate" required>
+    
+    <!-- Datalist provides the autocomplete from past entries -->
+    <input list="roasterList" name="roaster" placeholder="Roaster" required>
+    <datalist id="roasterList">{% for r in roasters %}<option value="{{ r }}"></option>{% endfor %}</datalist>
+    
+    <input list="coffeeList" name="coffeeName" placeholder="Coffee Name" required>
+    <datalist id="coffeeList">{% for c in coffees %}<option value="{{ c }}"></option>{% endfor %}</datalist>
+    
+    <input type="number" step="0.1" name="bagWeightGrams" placeholder="Grams" required>
+    <input type="number" step="0.01" name="cost" placeholder="Cost ($)" required>
+    <button type="submit">Add</button>
+  </form>
+</body>
+</html>
