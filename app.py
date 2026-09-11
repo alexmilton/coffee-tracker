@@ -21,14 +21,29 @@ with app.app_context():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        newPurchase = CoffeePurchase(
-            purchaseDate=datetime.strptime(request.form['purchaseDate'], '%Y-%m-%d').date(),
-            roaster=request.form['roaster'].strip(),
-            coffeeName=request.form['coffeeName'].strip(),
-            bagWeightGrams=float(request.form['bagWeightGrams']),
-            cost=float(request.form['cost'])
-        )
-        db.session.add(newPurchase)
+        # Single values for the batch
+        purchaseDateStr = request.form['purchaseDate'].strip()
+        roasterVal = request.form['roaster'].strip()
+        
+        # Lists for the individual bags
+        coffeeNames = request.form.getlist('coffeeName')
+        bagWeights = request.form.getlist('bagWeightGrams')
+        costs = request.form.getlist('cost')
+        
+        # Loop through up to 3 bags
+        for i in range(len(coffeeNames)):
+            cName = coffeeNames[i].strip()
+            # Only process if a coffee name was provided in this row
+            if cName and bagWeights[i] and costs[i]:
+                newPurchase = CoffeePurchase(
+                    purchaseDate=datetime.strptime(purchaseDateStr, '%Y-%m-%d').date(),
+                    roaster=roasterVal,
+                    coffeeName=cName,
+                    bagWeightGrams=float(bagWeights[i]),
+                    cost=float(costs[i])
+                )
+                db.session.add(newPurchase)
+                
         db.session.commit()
         return redirect(url_for('index'))
 

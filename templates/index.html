@@ -7,10 +7,10 @@
   <style>
     /* Color Palette */
     :root {
-      --bgBrown: #4A3b32;       /* Deep espresso background */
-      --cardCream: #FDFBF7;     /* Latte foam cards */
-      --textDark: #2C241F;      /* High contrast text */
-      --accentOrange: #D35400;  /* Fun, energetic highlight */
+      --bgBrown: #4A3b32;
+      --cardCream: #FDFBF7;
+      --textDark: #2C241F;
+      --accentOrange: #D35400;
       --borderRadius: 12px;
     }
 
@@ -31,7 +31,6 @@
       letter-spacing: 1px;
     }
 
-    /* Stats Grid */
     .stats-container {
       display: flex;
       gap: 1rem;
@@ -65,7 +64,6 @@
       margin-top: 0.5rem;
     }
 
-    /* Main Forms and Tables Layout */
     .card {
       background-color: var(--cardCream);
       padding: 2rem;
@@ -81,12 +79,33 @@
       padding-bottom: 0.8rem;
       margin-bottom: 1.5rem;
     }
+    
+    .card h4 {
+      color: #795c4a;
+      border-bottom: 2px solid #e0d8d3;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
 
-    form {
+    /* Batch Form Layout */
+    .batch-header {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 1.2rem;
-      align-items: end;
+    }
+
+    .bag-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed #e0d8d3;
+    }
+
+    .bag-row:last-child {
+      border-bottom: none;
     }
 
     .input-group {
@@ -119,12 +138,13 @@
       background-color: var(--accentOrange);
       color: white;
       border: none;
-      padding: 0.8rem;
+      padding: 0.8rem 1.5rem;
       border-radius: 6px;
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
       transition: background-color 0.2s;
+      width: 100%;
     }
 
     button:hover {
@@ -166,45 +186,83 @@
     </div>
     <div class="stat-card">
       <div class="stat-card-title">Total Spend</div>
-      <div class="stat-card-value">${{ stats.totalSpend }}</div>
+      <div class="stat-card-value">${{ "%.2f"|format(stats.totalSpend) }}</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-title">Avg Cost / Gram</div>
-      <div class="stat-card-value">${{ stats.avgCostPerGram }}</div>
+      <div class="stat-card-value">${{ "%.4f"|format(stats.avgCostPerGram) }}</div>
     </div>
   </div>
   
   <div class="card">
-    <h3>Log a New Purchase</h3>
+    <h3>Log a Purchase Batch</h3>
     <form method="POST">
-      <div class="input-group">
-        <label>Date</label>
-        <input type="date" name="purchaseDate" required>
-      </div>
       
-      <div class="input-group">
-        <label>Roaster</label>
-        <input list="roasterList" name="roaster" placeholder="e.g. Monogram Coffee" required>
-        <datalist id="roasterList">{% for r in roasters %}<option value="{{ r }}"></option>{% endfor %}</datalist>
+      <!-- Shared Batch Info -->
+      <div class="batch-header">
+        <div class="input-group">
+          <label>Date (YYYY-MM-DD)</label>
+          <input type="text" name="purchaseDate" placeholder="2026-09-11" pattern="\d{4}-\d{2}-\d{2}" required>
+        </div>
+        <div class="input-group">
+          <label>Roaster</label>
+          <input list="roasterList" name="roaster" placeholder="e.g. Brûlerie du Quai" required>
+          <datalist id="roasterList">{% for r in roasters %}<option value="{{ r }}"></option>{% endfor %}</datalist>
+        </div>
       </div>
+
+      <h4>Coffee Details (Up to 3 Bags)</h4>
       
-      <div class="input-group">
-        <label>Coffee Name</label>
-        <input list="coffeeList" name="coffeeName" placeholder="Name or origin" required>
-        <datalist id="coffeeList">{% for c in coffees %}<option value="{{ c }}"></option>{% endfor %}</datalist>
+      <!-- Bag 1 (Required) -->
+      <div class="bag-row">
+        <div class="input-group">
+          <label>Bag 1</label>
+          <input list="coffeeList" name="coffeeName" placeholder="Name or origin" required>
+          <datalist id="coffeeList">{% for c in coffees %}<option value="{{ c }}"></option>{% endfor %}</datalist>
+        </div>
+        <div class="input-group">
+          <label>Weight (g)</label>
+          <input type="number" step="0.1" name="bagWeightGrams" placeholder="340" required>
+        </div>
+        <div class="input-group">
+          <label>Cost ($)</label>
+          <input type="number" step="0.01" name="cost" placeholder="24.50" required>
+        </div>
       </div>
-      
-      <div class="input-group">
-        <label>Weight (g)</label>
-        <input type="number" step="0.1" name="bagWeightGrams" placeholder="e.g. 340" required>
+
+      <!-- Bag 2 (Optional) -->
+      <div class="bag-row">
+        <div class="input-group">
+          <label>Bag 2</label>
+          <input list="coffeeList" name="coffeeName" placeholder="(Optional)">
+        </div>
+        <div class="input-group">
+          <label>Weight (g)</label>
+          <input type="number" step="0.1" name="bagWeightGrams" placeholder="340">
+        </div>
+        <div class="input-group">
+          <label>Cost ($)</label>
+          <input type="number" step="0.01" name="cost" placeholder="24.50">
+        </div>
       </div>
-      
-      <div class="input-group">
-        <label>Cost ($)</label>
-        <input type="number" step="0.01" name="cost" placeholder="e.g. 24.50" required>
+
+      <!-- Bag 3 (Optional) -->
+      <div class="bag-row">
+        <div class="input-group">
+          <label>Bag 3</label>
+          <input list="coffeeList" name="coffeeName" placeholder="(Optional)">
+        </div>
+        <div class="input-group">
+          <label>Weight (g)</label>
+          <input type="number" step="0.1" name="bagWeightGrams" placeholder="340">
+        </div>
+        <div class="input-group">
+          <label>Cost ($)</label>
+          <input type="number" step="0.01" name="cost" placeholder="24.50">
+        </div>
       </div>
-      
-      <button type="submit">+ Add Coffee</button>
+
+      <button type="submit">+ Add Batch to Tracker</button>
     </form>
   </div>
 
@@ -227,7 +285,7 @@
           <td>{{ p.roaster }}</td>
           <td>{{ p.coffeeName }}</td>
           <td>{{ p.bagWeightGrams }}g</td>
-          <td>${{ p.cost }}</td>
+          <td>${{ "%.2f"|format(p.cost) }}</td>
         </tr>
         {% else %}
         <tr>
