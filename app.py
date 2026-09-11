@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
-from datetime import datetime
+from datetime import datetime, date
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////data/coffee.db'
@@ -21,19 +21,15 @@ with app.app_context():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # Single values for the batch
         purchaseDateStr = request.form['purchaseDate'].strip()
         roasterVal = request.form['roaster'].strip()
         
-        # Lists for the individual bags
         coffeeNames = request.form.getlist('coffeeName')
         bagWeights = request.form.getlist('bagWeightGrams')
         costs = request.form.getlist('cost')
         
-        # Loop through up to 3 bags
         for i in range(len(coffeeNames)):
             cName = coffeeNames[i].strip()
-            # Only process if a coffee name was provided in this row
             if cName and bagWeights[i] and costs[i]:
                 newPurchase = CoffeePurchase(
                     purchaseDate=datetime.strptime(purchaseDateStr, '%Y-%m-%d').date(),
@@ -51,16 +47,33 @@ def index():
     roasters = [r[0] for r in db.session.query(func.distinct(CoffeePurchase.roaster)).all()]
     coffees = [c[0] for c in db.session.query(func.distinct(CoffeePurchase.coffeeName)).all()]
     
-    totalBags = CoffeePurchase.query.count()
-    totalGrams = db.session.query(func.coalesce(func.sum(CoffeePurchase.bagWeightGrams), 0)).scalar()
-    totalSpend = db.session.query(func.coalesce(func.sum(CoffeePurchase.cost), 0)).scalar()
+    # All Time Stats
+    totalBagsAllTime = CoffeePurchase.query.count()
+    totalGramsAllTime = db.session.query(func.coalesce(func.sum(CoffeePurchase.bagWeightGrams), 0)).scalar()
+    totalSpendAllTime = db.session.query(func.coalesce(func.sum(CoffeePurchase.cost), 0)).scalar()
+    avgCostPerGramAllTime = round(totalSpendAllTime / totalGramsAllTime, 4) if totalGramsAllTime > 0 else 0.0
+
+    # Current Year Stats
+    currentYear = datetime.now().year
+    startOfYear = date(currentYear, 1, 1)
     
-    avgCostPerGram = round(totalSpend / totalGrams, 4) if totalGrams > 0 else 0.0
+    totalBagsYear = db.session.query(CoffeePurchase).filter(CoffeePurchase.purchaseDate >= startOfYear).count()
+    totalGramsYear = db.session.query(func.coalesce(func.sum(CoffeePurchase.bagWeightGrams), 0)).filter(CoffeePurchase.purchaseDate >= startOfYear).scalar()
+    totalSpendYear = db.session.query(func.coalesce(func.sum(CoffeePurchase.cost), 0)).filter(CoffeePurchase.purchaseDate >= startOfYear).scalar()
+    avgCostPerGramYear = round(totalSpendYear / totalGramsYear, 4) if totalGramsYear > 0 else 0.0
 
     stats = {
-        'totalBags': totalBags,
-        'totalSpend': round(totalSpend, 2),
-        'avgCostPerGram': avgCostPerGram
+        'allTime': {
+            'totalBags': totalBagsAllTime,
+            'totalSpend': round(totalSpendAllTime, 2),
+            'avgCostPerGram': avgCostPerGramAllTime
+        },
+        'currentYear': {
+            'year': currentYear,
+            'totalBags': totalBagsYear,
+            'totalSpend': round(totalSpendYear, 2),
+            'avgCostPerGram': avgCostPerGramYear
+        }
     }
 
     return render_template('index.html', purchases=purchases, roasters=roasters, coffees=coffees, stats=stats)
