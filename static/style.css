@@ -219,7 +219,7 @@ h1 {
 /* Batch Form Layout */
 .batch-header {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
+  grid-template-columns: 2fr 1fr 1fr 7rem;
   gap: 1rem;
 }
 
@@ -233,7 +233,7 @@ h1 {
 
 .bag-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
+  grid-template-columns: 2fr 1fr 1fr 7rem;
   gap: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
