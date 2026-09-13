@@ -215,6 +215,7 @@ h1 {
   font-size: 0.85rem;
   font-weight: 600;
   color: #795c4a;
+  white-space: nowrap;
 }
 
 /* Batch Form Layout */
@@ -677,6 +678,16 @@ input::placeholder {
   padding-top: 1.35rem;
 }
 
+.stats-summary-card .stats-card-header {
+  padding-bottom: 0;
+  margin-bottom: 0.5rem;
+}
+
+.stats-summary-card .section-heading {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0;
+}
+
 .stats-card-header {
   border-bottom: none;
 }
@@ -722,7 +733,7 @@ input::placeholder {
   margin-bottom: 1.5rem;
   padding-bottom: 0.8rem;
   color: #ead9c8;
-  border-bottom: 2px solid #e0d8d3;
+  border-bottom: none;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 1.05rem;
 }
