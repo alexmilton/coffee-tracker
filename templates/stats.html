@@ -9,7 +9,11 @@
 <body>
   <header class="topbar">
     <a class="brand" href="{{ url_for('index') }}">
-      <span class="brand-mark" aria-hidden="true"></span>
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M5 11h17v3c0 7-3.2 12-8.5 12S5 21 5 14v-3Z" fill="currentColor" />
+        <path d="M22 14h2.5a4.5 4.5 0 0 1 0 9H21v-2h3.5a2.5 2.5 0 0 0 0-5H22v-2Z" fill="currentColor" />
+        <path d="M11 7c-2-2 2-3 0-5M17 7c-2-2 2-3 0-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" />
+      </svg>
       <span>Coffee Tracker</span>
     </a>
   </header>
