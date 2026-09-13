@@ -62,6 +62,7 @@ h1 {
   align-items: center;
   padding-bottom: 0.8rem;
   margin-bottom: 1rem;
+  border-bottom: none;
 }
 
 .stats-card-header h3 {
@@ -412,8 +413,12 @@ th {
 
 .submit-batch-button {
   display: block;
-  width: auto;
   margin-top: 0.25rem;
+}
+
+.purchase-action-button {
+  width: 12rem;
+  min-height: 2.5rem;
   padding: 0.65rem 1rem;
 }
 
