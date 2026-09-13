@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, abort, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, desc
 from datetime import datetime, date
@@ -89,6 +89,44 @@ def index():
         coffees=coffees,
         stats=stats
     )
+
+@app.post('/purchase/<int:purchase_id>/edit')
+def edit_purchase(purchase_id):
+    purchase = db.get_or_404(CoffeePurchase, purchase_id)
+    purchaseDateStr = request.form.get('purchaseDate', '').strip()
+    roasterVal = request.form.get('roaster', '').strip()
+    coffeeNameVal = request.form.get('coffeeName', '').strip()
+    bagWeightVal = request.form.get('bagWeightGrams', '').strip()
+    costVal = request.form.get('cost', '').strip()
+
+    try:
+        purchaseDate = datetime.strptime(purchaseDateStr, '%Y-%m-%d').date()
+        bagWeightGrams = float(bagWeightVal)
+        cost = float(costVal)
+    except (TypeError, ValueError):
+        abort(400, description='Enter a valid date, size, and cost.')
+
+    if not roasterVal or not coffeeNameVal or bagWeightGrams <= 0 or cost < 0:
+        abort(400, description='Enter a roaster, coffee name, positive size, and non-negative cost.')
+
+    purchase.purchaseDate = purchaseDate
+    purchase.roaster = roasterVal
+    purchase.coffeeName = coffeeNameVal
+    purchase.bagWeightGrams = bagWeightGrams
+    purchase.cost = cost
+    db.session.commit()
+
+    page = request.form.get('page', 1, type=int)
+    return redirect(url_for('index', page=page))
+
+@app.post('/purchase/<int:purchase_id>/delete')
+def delete_purchase(purchase_id):
+    purchase = db.get_or_404(CoffeePurchase, purchase_id)
+    db.session.delete(purchase)
+    db.session.commit()
+
+    page = request.form.get('page', 1, type=int)
+    return redirect(url_for('index', page=page))
 
 @app.route('/stats')
 def stats_detail():

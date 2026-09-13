@@ -361,6 +361,40 @@ th {
   content: " ↓";
 }
 
+.purchase-actions {
+  white-space: nowrap;
+}
+
+.table-action-button {
+  width: auto;
+  padding: 0.45rem 0.7rem;
+  margin-right: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.delete-purchase-button {
+  background-color: transparent;
+  color: var(--accentOrange);
+  border: 1px solid var(--accentOrange);
+}
+
+.delete-purchase-button:hover {
+  background-color: var(--accentOrange);
+  color: white;
+}
+
+.delete-purchase-form {
+  display: inline;
+}
+
+.purchase-edit-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 7rem;
+  padding: 0.45rem;
+  font-size: 0.9rem;
+}
+
 tr:last-child td {
   border-bottom: none;
 }

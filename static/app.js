@@ -71,4 +71,45 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     });
   });
+
+  document.querySelectorAll("[data-purchase-row]").forEach(function(row) {
+    const editButton = row.querySelector(".edit-purchase-button");
+    const saveButton = row.querySelector(".save-purchase-button");
+    const cancelButton = row.querySelector(".cancel-purchase-button");
+    const deleteForm = row.querySelector(".delete-purchase-form");
+
+    editButton.addEventListener("click", function() {
+      row.classList.add("edit-mode");
+      row.querySelectorAll(".purchase-display").forEach(function(element) {
+        element.hidden = true;
+      });
+      row.querySelectorAll(".purchase-edit-input").forEach(function(element) {
+        element.hidden = false;
+      });
+      editButton.hidden = true;
+      saveButton.hidden = false;
+      cancelButton.hidden = false;
+      deleteForm.hidden = true;
+    });
+
+    cancelButton.addEventListener("click", function() {
+      row.classList.remove("edit-mode");
+      row.querySelectorAll(".purchase-display").forEach(function(element) {
+        element.hidden = false;
+      });
+      row.querySelectorAll(".purchase-edit-input").forEach(function(element) {
+        element.hidden = true;
+      });
+      editButton.hidden = false;
+      saveButton.hidden = true;
+      cancelButton.hidden = true;
+      deleteForm.hidden = false;
+    });
+
+    deleteForm.addEventListener("submit", function(event) {
+      if (!window.confirm("Delete this purchase?")) {
+        event.preventDefault();
+      }
+    });
+  });
 });

@@ -106,20 +106,48 @@
           <th>Coffee</th>
           <th><button type="button" class="sort-button" data-sort-key="size" data-sort-type="number">Size</button></th>
           <th><button type="button" class="sort-button" data-sort-key="cost" data-sort-type="number">Cost</button></th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for p in purchasesPagination.items %}
-        <tr>
-          <td data-sort-key="date" data-sort-value="{{ p.purchaseDate.isoformat() }}">{{ p.purchaseDate }}</td>
-          <td data-sort-key="roaster">{{ p.roaster }}</td>
-          <td>{{ p.coffeeName }}</td>
-          <td data-sort-key="size" data-sort-value="{{ p.bagWeightGrams }}">{{ p.bagWeightGrams | int }}g</td>
-          <td data-sort-key="cost" data-sort-value="{{ p.cost }}">${{ "%.2f"|format(p.cost) }}</td>
+        <tr data-purchase-row>
+          <td data-sort-key="date" data-sort-value="{{ p.purchaseDate.isoformat() }}">
+            <span class="purchase-display">{{ p.purchaseDate }}</span>
+            <input class="purchase-edit-input" type="date" name="purchaseDate" value="{{ p.purchaseDate.isoformat() }}" form="edit-purchase-{{ p.id }}" hidden>
+          </td>
+          <td data-sort-key="roaster">
+            <span class="purchase-display">{{ p.roaster }}</span>
+            <input class="purchase-edit-input" type="text" name="roaster" value="{{ p.roaster }}" form="edit-purchase-{{ p.id }}" required hidden>
+          </td>
+          <td>
+            <span class="purchase-display">{{ p.coffeeName }}</span>
+            <input class="purchase-edit-input" type="text" name="coffeeName" value="{{ p.coffeeName }}" form="edit-purchase-{{ p.id }}" required hidden>
+          </td>
+          <td data-sort-key="size" data-sort-value="{{ p.bagWeightGrams }}">
+            <span class="purchase-display">{{ p.bagWeightGrams | int }}g</span>
+            <input class="purchase-edit-input" type="number" name="bagWeightGrams" value="{{ p.bagWeightGrams }}" min="0.1" step="0.1" form="edit-purchase-{{ p.id }}" required hidden>
+          </td>
+          <td data-sort-key="cost" data-sort-value="{{ p.cost }}">
+            <span class="purchase-display">${{ "%.2f"|format(p.cost) }}</span>
+            <input class="purchase-edit-input" type="number" name="cost" value="{{ p.cost }}" min="0" step="0.01" form="edit-purchase-{{ p.id }}" required hidden>
+          </td>
+          <td class="purchase-actions">
+            <form id="edit-purchase-{{ p.id }}" method="POST" action="{{ url_for('edit_purchase', purchase_id=p.id) }}">
+              <input type="hidden" name="page" value="{{ purchasesPagination.page }}">
+            </form>
+            <button type="button" class="table-action-button edit-purchase-button">Edit</button>
+            <button type="submit" class="table-action-button save-purchase-button" form="edit-purchase-{{ p.id }}" hidden>Save</button>
+            <button type="button" class="table-action-button cancel-purchase-button" hidden>Cancel</button>
+            <form method="POST" action="{{ url_for('delete_purchase', purchase_id=p.id) }}" class="delete-purchase-form">
+              <input type="hidden" name="page" value="{{ purchasesPagination.page }}">
+              <button type="submit" class="table-action-button delete-purchase-button">Delete</button>
+            </form>
+          </td>
         </tr>
         {% else %}
         <tr>
-          <td colspan="5" style="text-align:center; color: #795c4a; padding: 2rem;">No coffee logged yet!</td>
+          <td colspan="6" style="text-align:center; color: #795c4a; padding: 2rem;">No coffee logged yet!</td>
         </tr>
         {% endfor %}
       </tbody>
