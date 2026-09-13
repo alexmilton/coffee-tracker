@@ -489,7 +489,7 @@ body {
   gap: 0.75rem;
   color: #e8d4bd;
   text-decoration: none;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: inherit;
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -499,24 +499,34 @@ body {
 .brand-mark {
   position: relative;
   display: inline-block;
-  width: 1.45rem;
-  height: 1.85rem;
-  overflow: hidden;
-  border: 2px solid var(--accentOrange);
-  border-radius: 65% 35% 65% 35%;
-  background: #9e633b;
-  transform: rotate(28deg);
+  width: 1.75rem;
+  height: 1.75rem;
+  background:
+    linear-gradient(var(--accentOrangeHover), var(--accentOrangeHover)) 0.45rem 0.06rem / 2px 0.4rem no-repeat,
+    linear-gradient(var(--accentOrangeHover), var(--accentOrangeHover)) 0.88rem 0 / 2px 0.46rem no-repeat;
+}
+
+.brand-mark::before {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.18rem;
+  width: 1.18rem;
+  height: 0.78rem;
+  border-radius: 0.1rem 0.1rem 0.4rem 0.4rem;
+  background: var(--accentOrange);
+  content: "";
 }
 
 .brand-mark::after {
   position: absolute;
-  top: -0.2rem;
-  left: 0.55rem;
-  width: 2px;
-  height: 2.2rem;
-  background: #e0a16a;
+  top: 0.78rem;
+  left: 1.2rem;
+  width: 0.38rem;
+  height: 0.42rem;
+  border: 2px solid var(--accentOrange);
+  border-left: 0;
+  border-radius: 0 0.35rem 0.35rem 0;
   content: "";
-  transform: rotate(18deg);
 }
 
 .sidebar {
