@@ -236,12 +236,10 @@ h1 {
   grid-template-columns: 2fr 1fr 1fr 7rem;
   gap: 1rem;
   margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px dashed #e0d8d3;
 }
 
-.bag-row:last-child {
-  border-bottom: none;
+#bagRows {
+  margin-top: 1.25rem;
 }
 
 .input-group {
@@ -526,6 +524,11 @@ body {
   height: 2rem;
   color: var(--accentOrangeHover);
   flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 .sidebar {
