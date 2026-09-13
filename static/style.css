@@ -420,6 +420,7 @@ th {
   width: 12rem;
   min-height: 2.5rem;
   padding: 0.65rem 1rem;
+  white-space: nowrap;
 }
 
 tr:last-child td {
@@ -677,7 +678,7 @@ input::placeholder {
 }
 
 .stats-card-header {
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
 }
 
 .stat-highlight,
