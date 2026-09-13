@@ -31,7 +31,7 @@
           <th>Period</th>
           <th>Bags Purchased</th>
           <th>Total Spend</th>
-          <th>Avg Cost / Gram</th>
+          <th>Avg Cost / 100g</th>
         </tr>
       </thead>
       <tbody>
@@ -39,13 +39,13 @@
           <td class="period-label">This year</td>
           <td class="stat-highlight">{{ stats.currentYear.totalBags }}</td>
           <td class="stat-highlight">${{ "%.2f"|format(stats.currentYear.totalSpend) }}</td>
-          <td class="stat-highlight">${{ "%.4f"|format(stats.currentYear.avgCostPerGram) }}</td>
+          <td class="stat-highlight">${{ "%.4f"|format(stats.currentYear.avgCostPer100Grams) }}</td>
         </tr>
         <tr>
           <td class="period-label">All Time</td>
           <td class="stat-highlight">{{ stats.allTime.totalBags }}</td>
           <td class="stat-highlight">${{ "%.2f"|format(stats.allTime.totalSpend) }}</td>
-          <td class="stat-highlight">${{ "%.4f"|format(stats.allTime.avgCostPerGram) }}</td>
+          <td class="stat-highlight">${{ "%.4f"|format(stats.allTime.avgCostPer100Grams) }}</td>
         </tr>
       </tbody>
     </table>
@@ -98,24 +98,24 @@
       <h3>Purchase History</h3>
       <span class="record-count">Total: {{ purchasesPagination.total }} bags</span>
     </div>
-    <table>
+    <table data-sortable-table>
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Roaster</th>
+          <th><button type="button" class="sort-button" data-sort-key="date" data-sort-type="date">Date</button></th>
+          <th><button type="button" class="sort-button" data-sort-key="roaster">Roaster</button></th>
           <th>Coffee</th>
-          <th>Size</th>
-          <th>Cost</th>
+          <th><button type="button" class="sort-button" data-sort-key="size" data-sort-type="number">Size</button></th>
+          <th><button type="button" class="sort-button" data-sort-key="cost" data-sort-type="number">Cost</button></th>
         </tr>
       </thead>
       <tbody>
         {% for p in purchasesPagination.items %}
         <tr>
-          <td>{{ p.purchaseDate }}</td>
-          <td>{{ p.roaster }}</td>
+          <td data-sort-key="date" data-sort-value="{{ p.purchaseDate.isoformat() }}">{{ p.purchaseDate }}</td>
+          <td data-sort-key="roaster">{{ p.roaster }}</td>
           <td>{{ p.coffeeName }}</td>
-          <td>{{ p.bagWeightGrams | int }}g</td>
-          <td>${{ "%.2f"|format(p.cost) }}</td>
+          <td data-sort-key="size" data-sort-value="{{ p.bagWeightGrams }}">{{ p.bagWeightGrams | int }}g</td>
+          <td data-sort-key="cost" data-sort-value="{{ p.cost }}">${{ "%.2f"|format(p.cost) }}</td>
         </tr>
         {% else %}
         <tr>

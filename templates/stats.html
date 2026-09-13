@@ -85,27 +85,27 @@
 
   <!-- Roaster Breakdown Table -->
   <div class="card">
-    <h3>Performance by Roaster</h3>
-    <table>
+    <h3>Roaster Details</h3>
+    <table data-sortable-table>
       <thead>
         <tr>
-          <th>Roaster</th>
-          <th>Orders</th>
-          <th>Bags</th>
-          <th>Total Spend</th>
-          <th>Avg Cost / Bag</th>
-          <th>Avg Cost / Gram</th>
+          <th><button type="button" class="sort-button" data-sort-key="roaster">Roaster</button></th>
+          <th><button type="button" class="sort-button" data-sort-key="orders" data-sort-type="number">Orders</button></th>
+          <th><button type="button" class="sort-button" data-sort-key="bags" data-sort-type="number">Bags</button></th>
+          <th><button type="button" class="sort-button" data-sort-key="total-spend" data-sort-type="number">Total Spend</button></th>
+          <th><button type="button" class="sort-button" data-sort-key="avg-cost-bag" data-sort-type="number">Avg Cost / Bag</button></th>
+          <th><button type="button" class="sort-button" data-sort-key="avg-cost-100g" data-sort-type="number">Avg Cost / 100g</button></th>
         </tr>
       </thead>
       <tbody>
         {% for r in roasterStats %}
         <tr>
-          <td><strong>{{ r.roaster }}</strong></td>
-          <td>{{ r.orderCount }}</td>
-          <td class="stat-highlight-small">{{ r.bagCount }}</td>
-          <td>${{ "%.2f"|format(r.totalSpend) }}</td>
-          <td>${{ "%.2f"|format(r.avgCostPerBag) }}</td>
-          <td>${{ "%.4f"|format(r.avgCostPerGram) }}</td>
+          <td data-sort-key="roaster"><strong>{{ r.roaster }}</strong></td>
+          <td data-sort-key="orders" data-sort-value="{{ r.orderCount }}">{{ r.orderCount }}</td>
+          <td class="stat-highlight-small" data-sort-key="bags" data-sort-value="{{ r.bagCount }}">{{ r.bagCount }}</td>
+          <td data-sort-key="total-spend" data-sort-value="{{ r.totalSpend }}">${{ "%.2f"|format(r.totalSpend) }}</td>
+          <td data-sort-key="avg-cost-bag" data-sort-value="{{ r.avgCostPerBag }}">${{ "%.2f"|format(r.avgCostPerBag) }}</td>
+          <td data-sort-key="avg-cost-100g" data-sort-value="{{ r.avgCostPer100Grams }}">${{ "%.4f"|format(r.avgCostPer100Grams) }}</td>
         </tr>
         {% else %}
         <tr>

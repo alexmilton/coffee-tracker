@@ -339,6 +339,28 @@ th {
   font-size: 0.85rem;
 }
 
+.sort-button {
+  width: auto;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.sort-button::after {
+  content: " ⇅";
+  color: #b49d8e;
+}
+
+.sort-button[data-sort-direction="ascending"]::after {
+  content: " ↑";
+}
+
+.sort-button[data-sort-direction="descending"]::after {
+  content: " ↓";
+}
+
 tr:last-child td {
   border-bottom: none;
 }

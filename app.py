@@ -57,7 +57,7 @@ def index():
     totalBagsAllTime = CoffeePurchase.query.count()
     totalGramsAllTime = db.session.query(func.coalesce(func.sum(CoffeePurchase.bagWeightGrams), 0)).scalar()
     totalSpendAllTime = db.session.query(func.coalesce(func.sum(CoffeePurchase.cost), 0)).scalar()
-    avgCostPerGramAllTime = round(totalSpendAllTime / totalGramsAllTime, 4) if totalGramsAllTime > 0 else 0.0
+    avgCostPer100GramsAllTime = round(totalSpendAllTime / totalGramsAllTime * 100, 4) if totalGramsAllTime > 0 else 0.0
 
     # Current Year Stats
     currentYear = datetime.now().year
@@ -66,19 +66,19 @@ def index():
     totalBagsYear = db.session.query(CoffeePurchase).filter(CoffeePurchase.purchaseDate >= startOfYear).count()
     totalGramsYear = db.session.query(func.coalesce(func.sum(CoffeePurchase.bagWeightGrams), 0)).filter(CoffeePurchase.purchaseDate >= startOfYear).scalar()
     totalSpendYear = db.session.query(func.coalesce(func.sum(CoffeePurchase.cost), 0)).filter(CoffeePurchase.purchaseDate >= startOfYear).scalar()
-    avgCostPerGramYear = round(totalSpendYear / totalGramsYear, 4) if totalGramsYear > 0 else 0.0
+    avgCostPer100GramsYear = round(totalSpendYear / totalGramsYear * 100, 4) if totalGramsYear > 0 else 0.0
 
     stats = {
         'allTime': {
             'totalBags': totalBagsAllTime,
             'totalSpend': round(totalSpendAllTime, 2),
-            'avgCostPerGram': avgCostPerGramAllTime
+            'avgCostPer100Grams': avgCostPer100GramsAllTime
         },
         'currentYear': {
             'year': currentYear,
             'totalBags': totalBagsYear,
             'totalSpend': round(totalSpendYear, 2),
-            'avgCostPerGram': avgCostPerGramYear
+            'avgCostPer100Grams': avgCostPer100GramsYear
         }
     }
 
@@ -105,14 +105,14 @@ def stats_detail():
         func.count(CoffeePurchase.id).label('bagCount')
     ).group_by(CoffeePurchase.coffeeName, CoffeePurchase.roaster).order_by(desc('bagCount')).limit(5).all()
 
-    # Roaster Summary Breakdown: distinct order dates, bag count, spend, avg cost/bag, avg cost/g
+    # Roaster Summary Breakdown: distinct order dates, bag count, spend, avg cost/bag, avg cost/100g
     roasterStatsQuery = db.session.query(
         CoffeePurchase.roaster,
         func.count(func.distinct(CoffeePurchase.purchaseDate)).label('orderCount'),
         func.count(CoffeePurchase.id).label('bagCount'),
         func.sum(CoffeePurchase.cost).label('totalSpend'),
         func.avg(CoffeePurchase.cost).label('avgCostPerBag'),
-        (func.sum(CoffeePurchase.cost) / func.sum(CoffeePurchase.bagWeightGrams)).label('avgCostPerGram')
+        (func.sum(CoffeePurchase.cost) / func.sum(CoffeePurchase.bagWeightGrams) * 100).label('avgCostPer100Grams')
     ).group_by(CoffeePurchase.roaster).order_by(desc('bagCount')).all()
 
     totalUniqueRoasters = len(roasterStatsQuery)

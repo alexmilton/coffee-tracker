@@ -33,4 +33,42 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   }
+
+  document.querySelectorAll("[data-sortable-table]").forEach(function(table) {
+    table.querySelectorAll(".sort-button").forEach(function(button) {
+      button.addEventListener("click", function() {
+        const sortKey = button.dataset.sortKey;
+        const sortType = button.dataset.sortType || "text";
+        const ascending = button.dataset.sortDirection !== "ascending";
+        const rows = Array.from(table.tBodies[0].rows);
+
+        rows.sort(function(rowA, rowB) {
+          const cellA = rowA.querySelector(`[data-sort-key="${sortKey}"]`);
+          const cellB = rowB.querySelector(`[data-sort-key="${sortKey}"]`);
+          if (!cellA || !cellB) {
+            return 0;
+          }
+          const valueA = cellA.dataset.sortValue || cellA.textContent.trim();
+          const valueB = cellB.dataset.sortValue || cellB.textContent.trim();
+          const comparison = sortType === "number"
+            ? Number(valueA) - Number(valueB)
+            : sortType === "date"
+              ? valueA.localeCompare(valueB)
+              : valueA.localeCompare(valueB, undefined, { sensitivity: "base" });
+
+          return ascending ? comparison : -comparison;
+        });
+
+        rows.forEach(function(row) {
+          table.tBodies[0].appendChild(row);
+        });
+        table.querySelectorAll(".sort-button").forEach(function(otherButton) {
+          delete otherButton.dataset.sortDirection;
+          otherButton.removeAttribute("aria-sort");
+        });
+        button.dataset.sortDirection = ascending ? "ascending" : "descending";
+        button.setAttribute("aria-sort", button.dataset.sortDirection);
+      });
+    });
+  });
 });
