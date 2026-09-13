@@ -219,8 +219,8 @@ h1 {
 /* Batch Form Layout */
 .batch-header {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 1.2rem;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 1rem;
 }
 
 .batch-header .input-group:first-child {
