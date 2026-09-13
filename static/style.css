@@ -738,6 +738,11 @@ input::placeholder {
   font-size: 1.05rem;
 }
 
+.card h3.section-heading,
+.table-header-row h3.section-heading {
+  border-bottom: none;
+}
+
 @media (max-width: 700px) {
   body {
     padding: calc(var(--topbarHeight) + 1rem) 0.8rem 2rem;
