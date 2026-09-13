@@ -7,12 +7,29 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>Coffee Tracker</h1>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('index') }}">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>Coffee Tracker</span>
+    </a>
+  </header>
 
-  <!-- Navigation Bar -->
-  <div class="subpage-nav">
-    <a href="{{ url_for('index') }}" class="back-link">&larr; Back to Tracker</a>
-  </div>
+  <aside class="sidebar" aria-label="Main navigation">
+    <nav class="sidebar-nav">
+      <a class="nav-link" href="{{ url_for('index') }}" aria-label="Home">
+        <span class="nav-icon" aria-hidden="true">⌂</span><span class="nav-label">Home</span>
+      </a>
+      <a class="nav-link active" href="{{ url_for('stats_detail') }}" aria-label="Detailed stats">
+        <span class="nav-icon" aria-hidden="true">▥</span><span class="nav-label">Detailed Stats</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+    <div class="page-heading">
+      <p class="eyebrow">Patterns in your coffee habit</p>
+      <h1>Detailed Stats</h1>
+    </div>
 
   <!-- Highlights Strip -->
   <div class="stats-mini-grid">
@@ -116,5 +133,6 @@
     </table>
   </div>
   <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </main>
 </body>
 </html>

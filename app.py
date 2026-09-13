@@ -43,12 +43,12 @@ def index():
         db.session.commit()
         return redirect(url_for('index'))
 
-    # Pagination: 50 per page
+    # Pagination: 25 per page
     page = request.args.get('page', 1, type=int)
     purchasesPagination = CoffeePurchase.query.order_by(
         CoffeePurchase.purchaseDate.desc(),
         CoffeePurchase.id.desc()
-    ).paginate(page=page, per_page=50, error_out=False)
+    ).paginate(page=page, per_page=25, error_out=False)
 
     roasters = [r[0] for r in db.session.query(func.distinct(CoffeePurchase.roaster)).order_by(CoffeePurchase.roaster).all()]
     coffees = [c[0] for c in db.session.query(func.distinct(CoffeePurchase.coffeeName)).order_by(CoffeePurchase.coffeeName).all()]
