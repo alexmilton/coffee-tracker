@@ -201,7 +201,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #e0d8d3;
+  border-bottom: none;
   margin-bottom: 0.5rem;
 }
 
@@ -678,7 +678,7 @@ input::placeholder {
 }
 
 .stats-card-header {
-  border-bottom: 2px solid #e0d8d3;
+  border-bottom: none;
 }
 
 .stat-highlight,
@@ -714,6 +714,17 @@ input::placeholder {
 
 .subpage-nav {
   display: none;
+}
+
+.section-heading {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  color: #ead9c8;
+  border-bottom: 2px solid #e0d8d3;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.05rem;
 }
 
 @media (max-width: 700px) {
