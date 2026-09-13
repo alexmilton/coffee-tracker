@@ -105,7 +105,7 @@
           <td class="stat-highlight-small" data-sort-key="bags" data-sort-value="{{ r.bagCount }}">{{ r.bagCount }}</td>
           <td data-sort-key="total-spend" data-sort-value="{{ r.totalSpend }}">${{ "%.2f"|format(r.totalSpend) }}</td>
           <td data-sort-key="avg-cost-bag" data-sort-value="{{ r.avgCostPerBag }}">${{ "%.2f"|format(r.avgCostPerBag) }}</td>
-          <td data-sort-key="avg-cost-100g" data-sort-value="{{ r.avgCostPer100Grams }}">${{ "%.4f"|format(r.avgCostPer100Grams) }}</td>
+          <td data-sort-key="avg-cost-100g" data-sort-value="{{ r.avgCostPer100Grams }}">${{ "%.2f"|format(r.avgCostPer100Grams) }}</td>
         </tr>
         {% else %}
         <tr>
@@ -115,5 +115,6 @@
       </tbody>
     </table>
   </div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

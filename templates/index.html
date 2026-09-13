@@ -39,13 +39,13 @@
           <td class="period-label">This year</td>
           <td class="stat-highlight">{{ stats.currentYear.totalBags }}</td>
           <td class="stat-highlight">${{ "%.2f"|format(stats.currentYear.totalSpend) }}</td>
-          <td class="stat-highlight">${{ "%.4f"|format(stats.currentYear.avgCostPer100Grams) }}</td>
+          <td class="stat-highlight">${{ "%.2f"|format(stats.currentYear.avgCostPer100Grams) }}</td>
         </tr>
         <tr>
           <td class="period-label">All Time</td>
           <td class="stat-highlight">{{ stats.allTime.totalBags }}</td>
           <td class="stat-highlight">${{ "%.2f"|format(stats.allTime.totalSpend) }}</td>
-          <td class="stat-highlight">${{ "%.4f"|format(stats.allTime.avgCostPer100Grams) }}</td>
+          <td class="stat-highlight">${{ "%.2f"|format(stats.allTime.avgCostPer100Grams) }}</td>
         </tr>
       </tbody>
     </table>
