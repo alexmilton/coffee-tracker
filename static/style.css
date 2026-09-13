@@ -743,6 +743,19 @@ input::placeholder {
   border-bottom: none;
 }
 
+.table-header-row {
+  display: block;
+}
+
+.table-header-row h3.section-heading {
+  margin-bottom: 0.4rem;
+}
+
+.table-header-row .record-count {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
 @media (max-width: 700px) {
   body {
     padding: calc(var(--topbarHeight) + 1rem) 0.8rem 2rem;
